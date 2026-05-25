@@ -1,0 +1,81 @@
+==============================================================
+  REPORTE DE LIMPIEZA DE DATOS - pipol_datos.csv
+  Fecha: 2026-04-23
+==============================================================
+  Registros originales : 100000
+  Registros limpios    : 100000
+
+──────────────────────────────────────────────────────────────
+  SECCIÓN 1: VALORES NULOS
+──────────────────────────────────────────────────────────────
+  education    : 22437 nulos  (22.44%)
+  sex          : 10000 nulos  (10.00%)
+  city         : 10000 nulos  (10.00%)
+
+  SOLUCIÓN APLICADA:
+  - Columnas numéricas (age, income, height, children): imputación con mediana
+  - Columnas categóricas (sex, city, education): imputación con moda
+
+──────────────────────────────────────────────────────────────
+  SECCIÓN 2: VALORES ATÍPICOS / IMPOSIBLES
+──────────────────────────────────────────────────────────────
+  [age]
+    Rango observado   : -10 – 200
+    Rango válido      : (0, 120)
+    Outliers (IQR)    : 3930
+    Inválidos lógicos : 10000
+    Ejemplos          : [166, -2, -8, -5, 193]
+
+  [income]
+    Rango observado   : -2000 – 199994
+    Rango válido      : (0, None)
+    Outliers (IQR)    : 4987
+    Inválidos lógicos : 5013
+    Ejemplos          : [-1886, -1172, -1788, -1388, -1058]
+
+  [height]
+    Rango observado   : 1.5 – 2.0
+    Rango válido      : (1.4, 2.3)
+    Outliers (IQR)    : 0
+    Inválidos lógicos : 0
+
+  [children]
+    Rango observado   : -5 – 5
+    Rango válido      : (0, 20)
+    Outliers (IQR)    : 0
+    Inválidos lógicos : 10000
+    Ejemplos          : [-5, -5, -4, -1, -4]
+
+  SOLUCIÓN APLICADA:
+  - Valores fuera del rango lógico reemplazados por la mediana de la columna
+  - Rangos: age(0-120), income(≥0), height(100-250 cm), children(0-20)
+
+──────────────────────────────────────────────────────────────
+  SECCIÓN 3: FALTAS ORTOGRÁFICAS
+──────────────────────────────────────────────────────────────
+  [sex]  total fuera de catálogo: 90000
+    'M'  →  45239 ocurrencias
+    'F'  →  44761 ocurrencias
+
+  [city]  total fuera de catálogo: 0
+
+  [education]  total fuera de catálogo: 7572
+    'no education'  →  2545 ocurrencias
+    'mastre'  →  2518 ocurrencias
+    'Bachelors'  →  2509 ocurrencias
+
+  SOLUCIÓN APLICADA:
+  - Normalización a minúsculas + strip de espacios
+  - Mapeo de variantes (mastre→Master, pHd→PhD, etc.) al valor canónico
+
+──────────────────────────────────────────────────────────────
+  SECCIÓN 4: COMPARATIVA ANTES vs DESPUÉS
+──────────────────────────────────────────────────────────────
+  age         min_antes=-10.0 min_despues=1.0  |  max_antes=200.0 max_despues=100.0
+  income      min_antes=-2000.0 min_despues=20001.0  |  max_antes=199994.0 max_despues=199994.0
+  height      min_antes=1.5 min_despues=1.5  |  max_antes=2.0 max_despues=2.0
+  children    min_antes=-5.0 min_despues=0.0  |  max_antes=5.0 max_despues=5.0
+
+==============================================================
+  FIN DEL REPORTE
+==============================================================
